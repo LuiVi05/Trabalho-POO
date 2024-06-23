@@ -1,19 +1,30 @@
+import java.time.LocalTime;
+
 public class Condutor extends Utilizador {
     
     private int nServicos;
     private float distanciaTotalServicos;
-    private float duracaoTotalServicos;
+    private LocalTime duracaoTotalServicos;
     private float custoTotalServicos;
     private String cartaConducao;
     private double latitude;
     private double longitude;
     private boolean isDisponivel;
+    private Veiculo veiculo;
 
     public Condutor(String aLogin, String aPassword, String aNome, int aEstado, String aEmail, String aCartaConducao, boolean aIsDisponivel) {
 
         super(aLogin, aPassword, aNome, aEstado, aEmail, "Condutor");
         this.cartaConducao = aCartaConducao;
         this.isDisponivel = true;
+    }
+
+    public int compareByDistancia(Condutor aCondutor) {
+        return Float.compare(this.distanciaTotalServicos, aCondutor.distanciaTotalServicos);
+    }
+
+    public int compareByNumServicos(Condutor aCondutor) {
+        return Integer.compare(this.nServicos, aCondutor.nServicos);
     }
 
     //Getters e Setters
@@ -33,11 +44,11 @@ public class Condutor extends Utilizador {
         this.distanciaTotalServicos = aDistanciaTotalServicos;
     }
 
-    public float getDuracaoTotalServicos() {
+    public LocalTime getDuracaoTotalServicos() {
         return duracaoTotalServicos;
     }
 
-    public void setDuracaoTotalServicos(float aDuracaoTotalServicos) {
+    public void setDuracaoTotalServicos(LocalTime aDuracaoTotalServicos) {
         this.duracaoTotalServicos = aDuracaoTotalServicos;
     }
 
@@ -73,11 +84,28 @@ public class Condutor extends Utilizador {
         this.longitude = aLongitude;
     }
 
+    public Veiculo getVeiculo() {
+        return veiculo;
+    }
+
+    public boolean setVeiculo(Veiculo aVeiculo) {
+        if(aVeiculo != null) {
+            this.veiculo = aVeiculo;
+            return true;
+        }
+        return false;
+    }
+
     public boolean isDisponivel() {
         return isDisponivel;
     }
 
     public void setDisponivel(boolean aIsDisponivel) {
         this.isDisponivel = aIsDisponivel;
+    }
+
+    public String toString() {
+
+        return super.toString() + "\nCarta de Conducao: " + this.cartaConducao + "\nLatitude: " + this.latitude + "\nLongitude: " + this.longitude + "\nDisponivel: " + this.isDisponivel + "\n";
     }
 }

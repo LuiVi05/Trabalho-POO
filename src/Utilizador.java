@@ -1,9 +1,11 @@
-public class Utilizador {
+import java.io.Serializable;
+
+public class Utilizador implements Comparable<Utilizador>, Serializable{
 
     private String login;
     private String password;
     private String nome;
-    private int estado; //1-pendente 2-ativo 3-inativo 4-recusado
+    private int estado; //1-pendente 2-ativo 3-inativo 4-rejeitado 5-por eliminar
     private String email; 
     private String tipoUtilizador;
     
@@ -16,6 +18,10 @@ public class Utilizador {
         this.email = aEmail;
         this.tipoUtilizador = aTipoUtilizador;
     }
+
+    public int compareTo(Utilizador aUtilizador) {
+        return this.nome.toLowerCase().compareTo(aUtilizador.getNome().toLowerCase());
+      }
 
     //Getters e Setters
     public String getLogin() {
@@ -60,5 +66,10 @@ public class Utilizador {
 
     public String getTipoUtilizador() {
         return tipoUtilizador;
+    }
+
+    public String toString() {
+
+        return "login: " + login + "\npassword=" + password + "\nnome=" + nome + "\nestado=" + estado + "\nemail=" + email + "\ntipoUtilizador=" + tipoUtilizador;
     }
 }

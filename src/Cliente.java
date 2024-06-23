@@ -1,17 +1,29 @@
+import java.time.LocalTime;
+
 public class Cliente extends Utilizador{
 
     private int nServicos;
     private float distanciaTotalServicos;
-    private float duracaoTotalServicos;
+    private LocalTime duracaoTotalServicos;
     private float custoTotalServicos;
     private String morada;
+    private String NIF;
 
-    public Cliente(String aLogin, String aPassword, String aNome, int aEstado, String aEmail, String aMorada) {
+    public Cliente(String aLogin, String aPassword, String aNome, int aEstado, String aEmail, String aMorada, String aNIF) {
 
         super(aLogin, aPassword, aNome, aEstado, aEmail, "Cliente");
         this.morada = aMorada;
+        this.NIF = aNIF;
     }
     
+    public int compareByDistancia(Cliente aCliente) {
+        return Float.compare(this.distanciaTotalServicos, aCliente.distanciaTotalServicos);
+    }
+
+    public int compareByNumServicos(Cliente aCliente) {
+        return Integer.compare(this.nServicos, aCliente.nServicos);
+    }
+
     //Getters e Setters
     public int getNServicos() {
         return nServicos;
@@ -29,11 +41,11 @@ public class Cliente extends Utilizador{
         this.distanciaTotalServicos = aDistanciaTotalServicos;
     }
 
-    public float getDuracaoTotalServicos() {
+    public LocalTime getDuracaoTotalServicos() {
         return duracaoTotalServicos;
     }
 
-    public void setDuracaoTotalServicos(float aDuracaoTotalServicos) {
+    public void setDuracaoTotalServicos(LocalTime aDuracaoTotalServicos) {
         this.duracaoTotalServicos = aDuracaoTotalServicos;
     }
 
@@ -51,5 +63,14 @@ public class Cliente extends Utilizador{
 
     public void setMorada(String aMorada) {
         this.morada = aMorada;
+    }
+
+    public String getNIF() {
+        return NIF;
+    }
+
+    public String toString() {
+
+        return super.toString() + "\nMorada: " + this.morada + "\nNIF: " + this.NIF + "\nN de Serviços: " + this.nServicos + "\nDistancia Total de Servicos: " + this.distanciaTotalServicos + "\nDuracao Total de Servicos: " + this.duracaoTotalServicos + "\nCusto Total de Servicos: " + this.custoTotalServicos + "\n";
     }
 }
