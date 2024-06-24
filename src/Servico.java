@@ -1,11 +1,13 @@
 import java.util.ArrayList;
 import java.io.Serializable;
 
-public class Servico implements Comparable<Servico>, Serializable{
+public class Servico implements Comparable<Servico>, Serializable {
 
     private static int contador = 0;
     private int id;
-    private int estado; //1-A espera de aprovacao do gestor 2-Aprovado pelo gestor 3-Aceite pelo condutor 4-Rejeitado pelo condutor 5-conluido pelo condutor 6-confirmado pelo cliente
+    private int estado; // 1-A espera de aprovacao do gestor 2-Aprovado pelo gestor 3-Aceite pelo
+                        // condutor 4-Rejeitado pelo condutor 5-conluido pelo condutor 6-confirmado pelo
+                        // cliente
     private Cliente cliente;
     private Condutor condutor;
     private Trajeto trajeto;
@@ -16,7 +18,7 @@ public class Servico implements Comparable<Servico>, Serializable{
 
         this.id = ++contador;
         this.estado = 1;
-        this.cliente = cliente;   
+        this.cliente = cliente;
         this.trajeto = trajeto;
         this.valorTotal = 0;
         this.condutoresQueRejeitaram = new ArrayList<Condutor>();
@@ -74,12 +76,14 @@ public class Servico implements Comparable<Servico>, Serializable{
     public ArrayList<Condutor> getCondutoresQueRejeitaram() {
         return condutoresQueRejeitaram;
     }
-    
+
     public void addCondutorQueRejeitaram(Condutor condutor) {
         this.condutoresQueRejeitaram.add(condutor);
     }
+
     public String toString() {
 
-        return  id + "\nestado=" + estado + "\ncliente=" + cliente + "\ncondutor=" + condutor + "\ntrajeto=" + trajeto + "\nvalorTotal=" + valorTotal + "\n";
+        return id + "\nestado=" + estado + "\ncliente=" + cliente + "\ncondutor=" + condutor + "\ntrajeto=" + trajeto
+                + "\nvalorTotal=" + valorTotal + "\n";
     }
 }

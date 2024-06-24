@@ -1,8 +1,7 @@
 import java.util.ArrayList;
 import java.io.Serializable;
 
-
-public class GereTrajeto implements Serializable{
+public class GereTrajeto implements Serializable {
 
     private ArrayList<Trajeto> trajetos;
 
@@ -14,10 +13,10 @@ public class GereTrajeto implements Serializable{
 
         Trajeto novoTrajeto = new Trajeto(aLatitudeOrigem, aLongitudeOrigem);
 
-        if(trajetos.add(novoTrajeto)) {
+        if (trajetos.add(novoTrajeto)) {
 
             return novoTrajeto;
-        } 
+        }
         return null;
     }
 

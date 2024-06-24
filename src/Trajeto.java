@@ -79,7 +79,7 @@ public class Trajeto implements Serializable {
 
     public String toString() {
         return "latitudeOrigem=" + latitudeOrigem + ", longitudeOrigem=" + longitudeOrigem
-                + ", hora=" + getHoraFormatada() + ", dia=" + getDiaFormatado() + ", duracao=" 
+                + ", hora=" + getHoraFormatada() + ", dia=" + getDiaFormatado() + ", duracao="
                 + getDuracaoFormatada() + ", distancia=" + distancia;
     }
 }

@@ -4,9 +4,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Serializable;
 
+public class GereUtilizador implements Serializable {
 
-public class GereUtilizador implements Serializable{
-    
     private ArrayList<Utilizador> utilizadores;
 
     public GereUtilizador() {
@@ -16,15 +15,19 @@ public class GereUtilizador implements Serializable{
     public boolean isUtilizadoresEmpty() {
         return utilizadores.isEmpty();
     }
+
     public boolean criarGestor(String aLogin, String aPassword, String aNome, int aEstado, String aEmail) {
         return registarUtilizador(new Gestor(aLogin, aPassword, aNome, aEstado, aEmail));
     }
 
-    public boolean criarCondutor(String aLogin, String aPassword, String aNome, int aEstado, String aEmail, String aCartaConducao, boolean aIsDisponivel) {
-        return registarUtilizador(new Condutor(aLogin, aPassword, aNome, aEstado, aEmail, aCartaConducao, aIsDisponivel));
+    public boolean criarCondutor(String aLogin, String aPassword, String aNome, int aEstado, String aEmail,
+            String aCartaConducao, boolean aIsDisponivel) {
+        return registarUtilizador(
+                new Condutor(aLogin, aPassword, aNome, aEstado, aEmail, aCartaConducao, aIsDisponivel));
     }
 
-    public boolean criarCliente(String aLogin, String aPassword, String aNome, int aEstado, String aEmail, String aMorada, String aNIF) {
+    public boolean criarCliente(String aLogin, String aPassword, String aNome, int aEstado, String aEmail,
+            String aMorada, String aNIF) {
         return registarUtilizador(new Cliente(aLogin, aPassword, aNome, aEstado, aEmail, aMorada, aNIF));
     }
 
@@ -32,7 +35,7 @@ public class GereUtilizador implements Serializable{
         if (existeUtilizador(aUtilizador)) {
             return false;
         }
-        
+
         boolean isCriado = utilizadores.add(aUtilizador);
 
         if (isCriado) {
@@ -45,7 +48,7 @@ public class GereUtilizador implements Serializable{
                 e.printStackTrace();
             }
         }
-        
+
         return isCriado;
     }
 
@@ -55,7 +58,7 @@ public class GereUtilizador implements Serializable{
         while (lista.hasNext()) {
             Utilizador utilizador = lista.next();
 
-            if(aUtilizador instanceof Cliente && utilizador instanceof Cliente) {
+            if (aUtilizador instanceof Cliente && utilizador instanceof Cliente) {
                 Cliente cliente = (Cliente) utilizador;
                 Cliente aCliente = (Cliente) aUtilizador;
 
@@ -64,7 +67,8 @@ public class GereUtilizador implements Serializable{
                 }
             }
 
-            if (utilizador.getLogin().equals(aUtilizador.getLogin()) || utilizador.getEmail().equals(aUtilizador.getEmail())) {
+            if (utilizador.getLogin().equals(aUtilizador.getLogin())
+                    || utilizador.getEmail().equals(aUtilizador.getEmail())) {
                 return true;
             }
         }
@@ -129,7 +133,7 @@ public class GereUtilizador implements Serializable{
         while (lista.hasNext()) {
             Utilizador utilizador = lista.next();
             if (utilizador.getLogin().equals(aLogin) && utilizador.getPassword().equals(aPassword)) {
-                
+
                 return utilizador;
             }
         }
@@ -138,22 +142,22 @@ public class GereUtilizador implements Serializable{
 
     public boolean pedirRemocaoUtilizador(Utilizador aUtilizador) {
 
-            if (aUtilizador != null && aUtilizador.getEstado() == 2) { // Estado 2 - ativo
-                aUtilizador.setEstado(5); // Estado 5 - por eliminar
-                return true;
-            }
-        
+        if (aUtilizador != null && aUtilizador.getEstado() == 2) { // Estado 2 - ativo
+            aUtilizador.setEstado(5); // Estado 5 - por eliminar
+            return true;
+        }
+
         return false;
     }
 
     public boolean aceitarPedidoRemocaoUtilizador(String aLogin) {
-        
+
         Iterator<Utilizador> lista = utilizadores.iterator();
         while (lista.hasNext()) {
             Utilizador utilizador = lista.next();
-            if (utilizador.getLogin().equals(aLogin) && utilizador.getEstado() == 5) { // Estado 5 - por eliminar        
+            if (utilizador.getLogin().equals(aLogin) && utilizador.getEstado() == 5) { // Estado 5 - por eliminar
                 utilizadores.remove(utilizador);
-                
+
                 return true;
             }
         }
@@ -165,7 +169,7 @@ public class GereUtilizador implements Serializable{
         Iterator<Utilizador> lista = utilizadores.iterator();
         while (lista.hasNext()) {
             Utilizador utilizador = lista.next();
-            if (utilizador.getLogin().equals(aLogin) && utilizador.getEstado() == 5) { // Estado 5 - por eliminar        
+            if (utilizador.getLogin().equals(aLogin) && utilizador.getEstado() == 5) { // Estado 5 - por eliminar
                 utilizador.setEstado(2); // Estado 2 - ativo
                 return true;
             }
@@ -174,38 +178,38 @@ public class GereUtilizador implements Serializable{
     }
 
     public ArrayList<Condutor> getCondutoresQueNaoRejeitaram(Servico aServico) {
-        
+
         ArrayList<Utilizador> condutores = getUtilizadoresByClassName("Condutor");
 
         ArrayList<Condutor> condutoresQueRejeitaram = aServico.getCondutoresQueRejeitaram();
-        
+
         ArrayList<Condutor> resultado = new ArrayList<>();
 
         Iterator<Utilizador> lista = condutores.iterator();
 
         while (lista.hasNext()) {
             Utilizador utilizador = lista.next();
-            if (utilizador instanceof Condutor) { 
+            if (utilizador instanceof Condutor) {
 
                 Condutor condutor = (Condutor) utilizador;
                 if (!condutoresQueRejeitaram.contains(condutor)) {
                     resultado.add(condutor);
                 }
-                
+
             }
         }
         return resultado;
-        
+
     }
 
-    public boolean alterarDadosUtilizador(Utilizador aUtilizador, String aAlteracao, int aOpAlteracao){
+    public boolean alterarDadosUtilizador(Utilizador aUtilizador, String aAlteracao, int aOpAlteracao) {
 
         Iterator<Utilizador> lista = utilizadores.iterator();
         while (lista.hasNext()) {
             Utilizador utilizador = lista.next();
-            
+
             if (utilizador.getLogin().equals(aUtilizador.getLogin())) {
-                
+
                 switch (aOpAlteracao) {
                     case 1:
 
@@ -238,9 +242,9 @@ public class GereUtilizador implements Serializable{
                         utilizador.setEmail(aAlteracao);
 
                         listaVerifica = utilizadores.iterator();
-                        while(lista.hasNext()) {
+                        while (lista.hasNext()) {
                             Utilizador utilizadorAtualizado = lista.next();
-                            if(existeUtilizador(utilizadorAtualizado)) {
+                            if (existeUtilizador(utilizadorAtualizado)) {
 
                                 utilizador.setEmail(emailAuxiliar);
                                 return false;
@@ -248,7 +252,7 @@ public class GereUtilizador implements Serializable{
                         }
                         break;
                     case 5:
-                        if(utilizador.getTipoUtilizador().equals("Cliente")){
+                        if (utilizador.getTipoUtilizador().equals("Cliente")) {
 
                             Cliente cliente = (Cliente) utilizador;
                             cliente.setMorada(aAlteracao);
@@ -276,7 +280,8 @@ public class GereUtilizador implements Serializable{
         Iterator<Utilizador> lista = utilizadores.iterator();
         while (lista.hasNext()) {
             Utilizador utilizador = lista.next();
-            if (utilizador.getTipoUtilizador().equals(aClassName) &&  (utilizador.getEstado() == 2 ||utilizador.getEstado() == 5)) {
+            if (utilizador.getTipoUtilizador().equals(aClassName)
+                    && (utilizador.getEstado() == 2 || utilizador.getEstado() == 5)) {
                 utilizadoresByClassName.add(utilizador);
             }
         }
@@ -413,4 +418,3 @@ public class GereUtilizador implements Serializable{
         return resultado;
     }
 }
-

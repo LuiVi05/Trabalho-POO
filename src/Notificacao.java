@@ -25,6 +25,7 @@ public class Notificacao implements Serializable {
     }
 
     public String toString() {
-        return "Notificacao: " + mensagem + " | Data e Hora: " + dataHora + " | Destinatario: " + destinatario.getLogin();
+        return "Notificacao: " + mensagem + " | Data e Hora: " + dataHora + " | Destinatario: "
+                + destinatario.getLogin();
     }
 }

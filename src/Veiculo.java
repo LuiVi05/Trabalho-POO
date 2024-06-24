@@ -1,7 +1,7 @@
 import java.io.Serializable;
 
-public class Veiculo implements Serializable{
-    
+public class Veiculo implements Serializable {
+
     private String marca;
     private String modelo;
     private String matricula;
@@ -9,7 +9,8 @@ public class Veiculo implements Serializable{
     private float distanciaPercorrida;
     private boolean isDisponivel;
 
-    public Veiculo (String aMarca, String aModelo, String aMatricula, int aAnoPrimeiraMatricula, float aDistanciaPercorrida, boolean aIsDisponivel) {
+    public Veiculo(String aMarca, String aModelo, String aMatricula, int aAnoPrimeiraMatricula,
+            float aDistanciaPercorrida, boolean aIsDisponivel) {
 
         this.marca = aMarca;
         this.modelo = aModelo;
@@ -20,7 +21,7 @@ public class Veiculo implements Serializable{
 
     }
 
-    //Getters e Setters
+    // Getters e Setters
     public String getMarca() {
         return marca;
     }
@@ -71,6 +72,7 @@ public class Veiculo implements Serializable{
 
     public String toString() {
 
-        return "Marca: " + this.marca + "\nModelo: " + this.modelo + "\nMatricula: " + this.matricula + "\nAno de primeira matricula: " + this.anoPrimeiraMatricula + "\n";
+        return "Marca: " + this.marca + "\nModelo: " + this.modelo + "\nMatricula: " + this.matricula
+                + "\nAno de primeira matricula: " + this.anoPrimeiraMatricula + "\n";
     }
- }
+}

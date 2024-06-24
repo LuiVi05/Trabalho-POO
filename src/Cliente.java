@@ -1,6 +1,6 @@
 import java.time.LocalTime;
 
-public class Cliente extends Utilizador{
+public class Cliente extends Utilizador {
 
     private int nServicos;
     private float distanciaTotalServicos;
@@ -9,13 +9,14 @@ public class Cliente extends Utilizador{
     private String morada;
     private String NIF;
 
-    public Cliente(String aLogin, String aPassword, String aNome, int aEstado, String aEmail, String aMorada, String aNIF) {
+    public Cliente(String aLogin, String aPassword, String aNome, int aEstado, String aEmail, String aMorada,
+            String aNIF) {
 
         super(aLogin, aPassword, aNome, aEstado, aEmail, "Cliente");
         this.morada = aMorada;
         this.NIF = aNIF;
     }
-    
+
     public int compareByDistancia(Cliente aCliente) {
         return Float.compare(this.distanciaTotalServicos, aCliente.distanciaTotalServicos);
     }
@@ -24,7 +25,7 @@ public class Cliente extends Utilizador{
         return Integer.compare(this.nServicos, aCliente.nServicos);
     }
 
-    //Getters e Setters
+    // Getters e Setters
     public int getNServicos() {
         return nServicos;
     }
@@ -71,6 +72,9 @@ public class Cliente extends Utilizador{
 
     public String toString() {
 
-        return super.toString() + "\nMorada: " + this.morada + "\nNIF: " + this.NIF + "\nN de Serviços: " + this.nServicos + "\nDistancia Total de Servicos: " + this.distanciaTotalServicos + "\nDuracao Total de Servicos: " + this.duracaoTotalServicos + "\nCusto Total de Servicos: " + this.custoTotalServicos + "\n";
+        return super.toString() + "\nMorada: " + this.morada + "\nNIF: " + this.NIF + "\nN de Serviços: "
+                + this.nServicos + "\nDistancia Total de Servicos: " + this.distanciaTotalServicos
+                + "\nDuracao Total de Servicos: " + this.duracaoTotalServicos + "\nCusto Total de Servicos: "
+                + this.custoTotalServicos + "\n";
     }
 }

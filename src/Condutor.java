@@ -1,7 +1,7 @@
 import java.time.LocalTime;
 
 public class Condutor extends Utilizador {
-    
+
     private int nServicos;
     private float distanciaTotalServicos;
     private LocalTime duracaoTotalServicos;
@@ -12,7 +12,8 @@ public class Condutor extends Utilizador {
     private boolean isDisponivel;
     private Veiculo veiculo;
 
-    public Condutor(String aLogin, String aPassword, String aNome, int aEstado, String aEmail, String aCartaConducao, boolean aIsDisponivel) {
+    public Condutor(String aLogin, String aPassword, String aNome, int aEstado, String aEmail, String aCartaConducao,
+            boolean aIsDisponivel) {
 
         super(aLogin, aPassword, aNome, aEstado, aEmail, "Condutor");
         this.cartaConducao = aCartaConducao;
@@ -27,7 +28,7 @@ public class Condutor extends Utilizador {
         return Integer.compare(this.nServicos, aCondutor.nServicos);
     }
 
-    //Getters e Setters
+    // Getters e Setters
     public int getNServicos() {
         return nServicos;
     }
@@ -89,7 +90,7 @@ public class Condutor extends Utilizador {
     }
 
     public boolean setVeiculo(Veiculo aVeiculo) {
-        if(aVeiculo != null) {
+        if (aVeiculo != null) {
             this.veiculo = aVeiculo;
             return true;
         }
@@ -106,6 +107,7 @@ public class Condutor extends Utilizador {
 
     public String toString() {
 
-        return super.toString() + "\nCarta de Conducao: " + this.cartaConducao + "\nLatitude: " + this.latitude + "\nLongitude: " + this.longitude + "\nDisponivel: " + this.isDisponivel + "\n";
+        return super.toString() + "\nCarta de Conducao: " + this.cartaConducao + "\nLatitude: " + this.latitude
+                + "\nLongitude: " + this.longitude + "\nDisponivel: " + this.isDisponivel + "\n";
     }
 }

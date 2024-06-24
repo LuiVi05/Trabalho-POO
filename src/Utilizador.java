@@ -1,18 +1,19 @@
 import java.io.Serializable;
 
-public class Utilizador implements Comparable<Utilizador>, Serializable{
+public class Utilizador implements Comparable<Utilizador>, Serializable {
 
     private String login;
     private String password;
     private String nome;
-    private int estado; //1-pendente 2-ativo 3-inativo 4-rejeitado 5-por eliminar
-    private String email; 
+    private int estado; // 1-pendente 2-ativo 3-inativo 4-rejeitado 5-por eliminar
+    private String email;
     private String tipoUtilizador;
-    
-    public Utilizador(String aLogin, String aPassword, String aNome, int aEstado, String aEmail, String aTipoUtilizador) {
+
+    public Utilizador(String aLogin, String aPassword, String aNome, int aEstado, String aEmail,
+            String aTipoUtilizador) {
 
         this.login = aLogin;
-        this.password =  aPassword;
+        this.password = aPassword;
         this.nome = aNome;
         this.estado = aEstado;
         this.email = aEmail;
@@ -21,9 +22,9 @@ public class Utilizador implements Comparable<Utilizador>, Serializable{
 
     public int compareTo(Utilizador aUtilizador) {
         return this.nome.toLowerCase().compareTo(aUtilizador.getNome().toLowerCase());
-      }
+    }
 
-    //Getters e Setters
+    // Getters e Setters
     public String getLogin() {
         return login;
     }
@@ -70,6 +71,7 @@ public class Utilizador implements Comparable<Utilizador>, Serializable{
 
     public String toString() {
 
-        return "login: " + login + "\npassword=" + password + "\nnome=" + nome + "\nestado=" + estado + "\nemail=" + email + "\ntipoUtilizador=" + tipoUtilizador;
+        return "login: " + login + "\npassword=" + password + "\nnome=" + nome + "\nestado=" + estado + "\nemail="
+                + email + "\ntipoUtilizador=" + tipoUtilizador;
     }
 }
