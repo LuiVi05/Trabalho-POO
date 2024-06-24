@@ -20,8 +20,10 @@ public class App {
 
     private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+    private static String username;
 
     public static void main(String[] args) {
+        username="sistema";
         infoSistema = carregarInfoSistema();
         infoSistema.setTotalExecucoes(infoSistema.getTotalExecucoes() + 1);
 
@@ -39,9 +41,9 @@ public class App {
             gereVeiculo = ficheiroDados.getGereVeiculo();
             gereUtilizador = ficheiroDados.getGereUtilizador();
             gereNotificacao = ficheiroDados.getGereNotificacao();
-            registarAcao("sistema", "dados carregados com sucesso");
+            registarAcao(username, "dados carregados com sucesso");
         } else {
-            registarAcao("sistema", "falha ao carregar dados");
+            registarAcao(username, "falha ao carregar dados");
         }
 
         while (gereUtilizador.isUtilizadoresEmpty()) {
@@ -53,11 +55,11 @@ public class App {
                     leDadosString("Introduza o seu email: ", "email"))) {
                 clearScreen();
                 System.out.println("Gestor criado com sucesso!\n");
-                registarAcao("sistema", "gestor inicial criado com sucesso");
+                registarAcao(username, "gestor inicial criado com sucesso");
             } else {
                 clearScreen();
                 System.out.println("Nao foi possivel criar o gestor. Tente novamente.\n");
-                registarAcao("sistema", "falha ao criar gestor inicial");
+                registarAcao(username, "falha ao criar gestor inicial");
             }
         }
 
@@ -68,22 +70,25 @@ public class App {
             switch (opMenuInicial) {
                 case 1:
                     clearScreen();
+                    registarAcao(username, "tentativa de autenticacao");
+
                     autenticarConta();
-                    registarAcao("sistema", "tentativa de autenticacao");
                     break;
                 case 2:
                     clearScreen();
+                    registarAcao(username, "tentativa de criacao de conta");
+
                     criarConta();
-                    registarAcao("sistema", "tentativa de criacao de conta");
                     break;
                 case 0:
                     encerrarAplicacao();
-                    registarAcao("sistema", "aplicacao encerrada");
+                    registarAcao(username, "aplicacao encerrada");
                     break;
                 default:
                     clearScreen();
+                    registarAcao(username, "opcao invalida no menu inicial");
+
                     System.out.println("Opcao invalida. Tente novamente.\n");
-                    registarAcao("sistema", "opcao invalida no menu inicial");
             }
         } while (opMenuInicial != 0);
     }
@@ -274,7 +279,7 @@ public class App {
     }
 
     public static void autenticarConta() {
-        String username = leDadosString("Introduza o seu username: ", "");
+        username = leDadosString("Introduza o seu username: ", "");
         String password = leDadosString("Introduza a sua password: ", "password");
 
         Utilizador utilizadorAutenticado = gereUtilizador.autenticarUtilizador(username, password);
@@ -488,12 +493,12 @@ public class App {
                 case 1:
                     clearScreen();
                     gerirUtilizadores(aUtilizadorAutenticado);
-                    registarAcao(aUtilizadorAutenticado.getLogin(), "acessou a gerencia de utilizadores");
+                    registarAcao(username, "acessou a gerencia de utilizadores");
                     break;
                 case 2:
                     clearScreen();
                     gerirServicos(aUtilizadorAutenticado);
-                    registarAcao(aUtilizadorAutenticado.getLogin(), "acessou a gerencia de servicos");
+                    registarAcao(username, "acessou a gerencia de servicos");
                     break;
                 case 3:
                     clearScreen();
@@ -505,12 +510,12 @@ public class App {
                     if (gereVeiculo.criarVeiculo(marca, modelo, matricula, ano, distancia, true)) {
                         clearScreen();
                         System.out.println("Veiculo criado com sucesso!\n");
-                        registarAcao(aUtilizadorAutenticado.getLogin(), "criou veiculo com sucesso: " + matricula);
+                        registarAcao(username, "criou veiculo com sucesso: " + matricula);
                     } else {
                         clearScreen();
                         System.out
                                 .println("O veiculo que introduziu ja se encontra registado. Verifique a matricula.\n");
-                        registarAcao(aUtilizadorAutenticado.getLogin(),
+                        registarAcao(username,
                                 "tentativa de criacao de veiculo falhou: " + matricula);
                     }
                     break;
@@ -518,22 +523,22 @@ public class App {
                     clearScreen();
                     System.out.println("Logs:\n");
                     consultarLog();
-                    registarAcao(aUtilizadorAutenticado.getLogin(), "acessou a consulta de logs");
+                    registarAcao(username, "acessou a consulta de logs");
                     break;
                 case 5:
                     clearScreen();
                     gerirDadosManualmente();
-                    registarAcao(aUtilizadorAutenticado.getLogin(), "acessou a gerencia de dados manuais");
+                    registarAcao(username, "acessou a gerencia de dados manuais");
                     break;
                 case 6:
                     clearScreen();
                     escolherOpcaoAlteracao(aUtilizadorAutenticado);
-                    registarAcao(aUtilizadorAutenticado.getLogin(), "acessou a opcao de alteracao de dados");
+                    registarAcao(username, "acessou a opcao de alteracao de dados");
                     break;
                 case 7:
                     clearScreen();
                     consultarNotificacoes(aUtilizadorAutenticado);
-                    registarAcao(aUtilizadorAutenticado.getLogin(), "acessou a consulta de notificacoes");
+                    registarAcao(username, "acessou a consulta de notificacoes");
                     break;
                 case 8:
                     clearScreen();
@@ -543,27 +548,28 @@ public class App {
                         while (iterator.hasNext()) {
                             Utilizador gestor = iterator.next();
                             Notificacao notificacao = new Notificacao(
-                                    "Pedido de remocao de conta: " + aUtilizadorAutenticado.getLogin(), gestor);
+                                    "Pedido de remocao de conta: " + username, gestor);
                             gereNotificacao.adicionarNotificacao(notificacao);
                         }
                         clearScreen();
                         System.out.println("Pedido de remocao de conta enviado!\n");
-                        registarAcao(aUtilizadorAutenticado.getLogin(), "pedido de remocao de conta enviado");
+                        registarAcao(username, "pedido de remocao de conta enviado");
                     } else {
                         clearScreen();
                         System.out
                                 .println("Ocorreu um erro ao enviar o pedido de remocao de conta. Tente novamente.\n");
-                        registarAcao(aUtilizadorAutenticado.getLogin(),
+                        registarAcao(username,
                                 "tentativa de pedido de remocao de conta falhou");
                     }
                     break;
                 case 0:
-                    registarAcao(aUtilizadorAutenticado.getLogin(), "saiu da aplicacao do gestor");
+                    registarAcao(username, "saiu da aplicacao do gestor");
+                    username="sistema";
                     break;
                 default:
                     clearScreen();
                     System.out.println("Opcao invalida. Tente novamente.\n");
-                    registarAcao(aUtilizadorAutenticado.getLogin(), "tentou acessar uma opcao invalida");
+                    registarAcao(username, "tentou acessar uma opcao invalida");
             }
 
         } while (opMenuGestor != 0);
@@ -581,41 +587,41 @@ public class App {
                 case 1:
                     clearScreen();
                     criarConta();
-                    registarAcao(aUtilizadorAutenticado.getLogin(), "acessou a criacao de conta");
+                    registarAcao(username, "acessou a criacao de conta");
                     break;
                 case 2:
                     clearScreen();
                     aprovarOuRejeitarRegistoUtilizador();
-                    registarAcao(aUtilizadorAutenticado.getLogin(),
+                    registarAcao(username,
                             "acessou a aprovacao/rejeicao de registo de utilizador");
                     break;
                 case 3:
                     clearScreen();
                     ativarDesativarConta();
-                    registarAcao(aUtilizadorAutenticado.getLogin(), "acessou a ativacao/desativacao de conta");
+                    registarAcao(username, "acessou a ativacao/desativacao de conta");
                     break;
                 case 4:
                     clearScreen();
                     aprovarOuRejeitarRemocaoConta();
-                    registarAcao(aUtilizadorAutenticado.getLogin(), "acessou a aprovacao/rejeicao de remocao de conta");
+                    registarAcao(username, "acessou a aprovacao/rejeicao de remocao de conta");
                     break;
                 case 5:
                     clearScreen();
                     listarUtilizadores();
-                    registarAcao(aUtilizadorAutenticado.getLogin(), "acessou a lista de utilizadores");
+                    registarAcao(username, "acessou a lista de utilizadores");
                     break;
                 case 6:
                     clearScreen();
                     pesquisarUtilizadores();
-                    registarAcao(aUtilizadorAutenticado.getLogin(), "acessou a pesquisa de utilizadores");
+                    registarAcao(username, "acessou a pesquisa de utilizadores");
                     break;
                 case 0:
-                    registarAcao(aUtilizadorAutenticado.getLogin(), "saiu da gerencia de utilizadores");
+                    registarAcao(username, "saiu da gerencia de utilizadores");
                     break;
                 default:
                     clearScreen();
                     System.out.println("Opcao invalida. Tente novamente.\n");
-                    registarAcao(aUtilizadorAutenticado.getLogin(),
+                    registarAcao(username,
                             "tentou acessar uma opcao invalida na gerencia de utilizadores");
             }
         } while (opMenuGerirUtilizadores != 0);
@@ -1082,35 +1088,35 @@ public class App {
                 case 1:
                     clearScreen();
                     aprovarOuRejeitarServicos();
-                    registarAcao(aUtilizadorAutenticado.getLogin(), "acessou a aprovacao/rejeicao de servicos");
+                    registarAcao(username, "acessou a aprovacao/rejeicao de servicos");
                     break;
                 case 2:
                     clearScreen();
                     atribuirNovoCondutor();
-                    registarAcao(aUtilizadorAutenticado.getLogin(), "acessou a atribuicao de novo condutor");
+                    registarAcao(username, "acessou a atribuicao de novo condutor");
                     break;
                 case 3:
                     clearScreen();
                     listarServicos();
-                    registarAcao(aUtilizadorAutenticado.getLogin(), "acessou a lista de servicos");
+                    registarAcao(username, "acessou a lista de servicos");
                     break;
                 case 4:
                     clearScreen();
                     pesquisarServicos();
-                    registarAcao(aUtilizadorAutenticado.getLogin(), "acessou a pesquisa de servicos");
+                    registarAcao(username, "acessou a pesquisa de servicos");
                     break;
                 case 5:
                     clearScreen();
                     listarTrajetos();
-                    registarAcao(aUtilizadorAutenticado.getLogin(), "acessou a lista de trajetos");
+                    registarAcao(username, "acessou a lista de trajetos");
                     break;
                 case 0:
-                    registarAcao(aUtilizadorAutenticado.getLogin(), "saiu da gerencia de servicos");
+                    registarAcao(username, "saiu da gerencia de servicos");
                     break;
                 default:
                     clearScreen();
                     System.out.println("Opcao invalida. Tente novamente.\n");
-                    registarAcao(aUtilizadorAutenticado.getLogin(),
+                    registarAcao(username,
                             "tentou acessar uma opcao invalida na gerencia de servicos");
             }
         } while (opMenuGerirServicos != 0);
@@ -1614,32 +1620,32 @@ public class App {
                 case 1:
                     clearScreen();
                     verMeusServicosCondutor(aUtilizadorAutenticado);
-                    registarAcao(aUtilizadorAutenticado.getLogin(), "acessou a visualizacao de seus servicos");
+                    registarAcao(username, "acessou a visualizacao de seus servicos");
                     break;
                 case 2:
                     clearScreen();
                     aceitarOuRejeitarServico(aUtilizadorAutenticado);
-                    registarAcao(aUtilizadorAutenticado.getLogin(), "acessou a opcao de aceitar ou rejeitar servico");
+                    registarAcao(username, "acessou a opcao de aceitar ou rejeitar servico");
                     break;
                 case 3:
                     clearScreen();
                     registarConlusaoServico(aUtilizadorAutenticado);
-                    registarAcao(aUtilizadorAutenticado.getLogin(), "acessou a opcao de registar conclusao de servico");
+                    registarAcao(username, "acessou a opcao de registar conclusao de servico");
                     break;
                 case 4:
                     clearScreen();
                     verEstatisticasPessoais(aUtilizadorAutenticado);
-                    registarAcao(aUtilizadorAutenticado.getLogin(), "acessou a visualizacao de estatisticas pessoais");
+                    registarAcao(username, "acessou a visualizacao de estatisticas pessoais");
                     break;
                 case 5:
                     clearScreen();
                     escolherOpcaoAlteracao(aUtilizadorAutenticado);
-                    registarAcao(aUtilizadorAutenticado.getLogin(), "acessou a opcao de alteracao de dados");
+                    registarAcao(username, "acessou a opcao de alteracao de dados");
                     break;
                 case 6:
                     clearScreen();
                     consultarNotificacoes(aUtilizadorAutenticado);
-                    registarAcao(aUtilizadorAutenticado.getLogin(), "acessou a consulta de notificacoes");
+                    registarAcao(username, "acessou a consulta de notificacoes");
                     break;
                 case 7:
                     clearScreen();
@@ -1649,26 +1655,27 @@ public class App {
                         while (iterator.hasNext()) {
                             Utilizador gestor = iterator.next();
                             Notificacao notificacao = new Notificacao(
-                                    "Pedido de remocao de conta: " + aUtilizadorAutenticado.getLogin(), gestor);
+                                    "Pedido de remocao de conta: " + username, gestor);
                             gereNotificacao.adicionarNotificacao(notificacao);
                         }
                         clearScreen();
                         System.out.println("Pedido de remocao de conta enviado!\n");
-                        registarAcao(aUtilizadorAutenticado.getLogin(), "pedido de remocao de conta enviado");
+                        registarAcao(username, "pedido de remocao de conta enviado");
                     } else {
                         clearScreen();
                         System.out
                                 .println("Ocorreu um erro ao enviar o pedido de remocao de conta. Tente novamente.\n");
-                        registarAcao(aUtilizadorAutenticado.getLogin(), "erro ao enviar pedido de remocao de conta");
+                        registarAcao(username, "erro ao enviar pedido de remocao de conta");
                     }
                     break;
                 case 0:
-                    registarAcao(aUtilizadorAutenticado.getLogin(), "saiu da aplicacao do condutor");
+                    registarAcao(username, "saiu da aplicacao do condutor");
+                    username="sistema";
                     break;
                 default:
                     clearScreen();
                     System.out.println("Opcao invalida. Tente novamente.\n");
-                    registarAcao(aUtilizadorAutenticado.getLogin(),
+                    registarAcao(username,
                             "tentou acessar uma opcao invalida na aplicacao do condutor");
             }
 
@@ -1858,32 +1865,32 @@ public class App {
                 case 1:
                     clearScreen();
                     solicitarServico(aUtilizadorAutenticado);
-                    registarAcao(aUtilizadorAutenticado.getLogin(), "solicitou servico");
+                    registarAcao(username, "solicitou servico");
                     break;
                 case 2:
                     clearScreen();
                     verMeusServicosCliente(aUtilizadorAutenticado);
-                    registarAcao(aUtilizadorAutenticado.getLogin(), "acessou a visualizacao de seus servicos");
+                    registarAcao(username, "acessou a visualizacao de seus servicos");
                     break;
                 case 3:
                     clearScreen();
                     confirmarConclusaoServico(aUtilizadorAutenticado);
-                    registarAcao(aUtilizadorAutenticado.getLogin(), "confirmou conclusao de servico");
+                    registarAcao(username, "confirmou conclusao de servico");
                     break;
                 case 4:
                     clearScreen();
                     verEstatisticasPessoais(aUtilizadorAutenticado);
-                    registarAcao(aUtilizadorAutenticado.getLogin(), "acessou a visualizacao de estatisticas pessoais");
+                    registarAcao(username, "acessou a visualizacao de estatisticas pessoais");
                     break;
                 case 5:
                     clearScreen();
                     escolherOpcaoAlteracao(aUtilizadorAutenticado);
-                    registarAcao(aUtilizadorAutenticado.getLogin(), "acessou a opcao de alteracao de dados");
+                    registarAcao(username, "acessou a opcao de alteracao de dados");
                     break;
                 case 6:
                     clearScreen();
                     consultarNotificacoes(aUtilizadorAutenticado);
-                    registarAcao(aUtilizadorAutenticado.getLogin(), "acessou a consulta de notificacoes");
+                    registarAcao(username, "acessou a consulta de notificacoes");
                     break;
                 case 7:
                     clearScreen();
@@ -1893,26 +1900,28 @@ public class App {
                         while (iterator.hasNext()) {
                             Utilizador gestor = iterator.next();
                             Notificacao notificacao = new Notificacao(
-                                    "Pedido de remocao de conta: " + aUtilizadorAutenticado.getLogin(), gestor);
+                                    "Pedido de remocao de conta: " + username, gestor);
                             gereNotificacao.adicionarNotificacao(notificacao);
                         }
                         clearScreen();
                         System.out.println("Pedido de remocao de conta enviado!\n");
-                        registarAcao(aUtilizadorAutenticado.getLogin(), "pedido de remocao de conta enviado");
+                        registarAcao(username, "pedido de remocao de conta enviado");
                     } else {
                         clearScreen();
                         System.out
                                 .println("Ocorreu um erro ao enviar o pedido de remocao de conta. Tente novamente.\n");
-                        registarAcao(aUtilizadorAutenticado.getLogin(), "erro ao enviar pedido de remocao de conta");
+                        registarAcao(username, "erro ao enviar pedido de remocao de conta");
                     }
                     break;
                 case 0:
-                    registarAcao(aUtilizadorAutenticado.getLogin(), "saiu da aplicacao do cliente");
+                    registarAcao(username, "saiu da aplicacao do cliente");
+                    username="sistema";
+                    
                     break;
                 default:
                     clearScreen();
                     System.out.println("Opcao invalida. Tente novamente.\n");
-                    registarAcao(aUtilizadorAutenticado.getLogin(),
+                    registarAcao(username,
                             "tentou acessar uma opcao invalida na aplicacao do cliente");
             }
 
@@ -2119,12 +2128,12 @@ public class App {
                     if (gereUtilizador.alterarDadosUtilizador(aUtilizadorAutenticado, novoLogin, opMenuAlteracao)) {
                         clearScreen();
                         System.out.println("Username alterado com sucesso!\n");
-                        registarAcao(aUtilizadorAutenticado.getLogin(), "alterou o username com sucesso");
+                        registarAcao(username, "alterou o username com sucesso");
                         opMenuAlteracao = 0;
                     } else {
                         clearScreen();
                         System.out.println("O username que introduziu ja se encontra em uso. Tente novamente.\n");
-                        registarAcao(aUtilizadorAutenticado.getLogin(), "falhou ao alterar o username");
+                        registarAcao(username, "falhou ao alterar o username");
                     }
                     break;
                 case 2:
@@ -2132,12 +2141,12 @@ public class App {
                     if (gereUtilizador.alterarDadosUtilizador(aUtilizadorAutenticado, novaPassword, opMenuAlteracao)) {
                         clearScreen();
                         System.out.println("Password alterada com sucesso!\n");
-                        registarAcao(aUtilizadorAutenticado.getLogin(), "alterou a password com sucesso");
+                        registarAcao(username, "alterou a password com sucesso");
                         opMenuAlteracao = 0;
                     } else {
                         clearScreen();
                         System.out.println("Ocorreu um erro ao tentar alterar a password. Tente novamente.\n");
-                        registarAcao(aUtilizadorAutenticado.getLogin(), "falhou ao alterar a password");
+                        registarAcao(username, "falhou ao alterar a password");
                     }
                     break;
                 case 3:
@@ -2145,12 +2154,12 @@ public class App {
                     if (gereUtilizador.alterarDadosUtilizador(aUtilizadorAutenticado, novoNome, opMenuAlteracao)) {
                         clearScreen();
                         System.out.println("Nome alterado com sucesso!\n");
-                        registarAcao(aUtilizadorAutenticado.getLogin(), "alterou o nome com sucesso");
+                        registarAcao(username, "alterou o nome com sucesso");
                         opMenuAlteracao = 0;
                     } else {
                         clearScreen();
                         System.out.println("Ocorreu um erro ao tentar alterar o nome. Tente novamente.\n");
-                        registarAcao(aUtilizadorAutenticado.getLogin(), "falhou ao alterar o nome");
+                        registarAcao(username, "falhou ao alterar o nome");
                     }
                     break;
                 case 4:
@@ -2158,12 +2167,12 @@ public class App {
                     if (gereUtilizador.alterarDadosUtilizador(aUtilizadorAutenticado, novoEmail, opMenuAlteracao)) {
                         clearScreen();
                         System.out.println("Email alterado com sucesso!\n");
-                        registarAcao(aUtilizadorAutenticado.getLogin(), "alterou o email com sucesso");
+                        registarAcao(username, "alterou o email com sucesso");
                         opMenuAlteracao = 0;
                     } else {
                         clearScreen();
                         System.out.println("O email que introduziu ja se encontra em uso. Tente novamente.\n");
-                        registarAcao(aUtilizadorAutenticado.getLogin(), "falhou ao alterar o email");
+                        registarAcao(username, "falhou ao alterar o email");
                     }
                     break;
                 case 5:
@@ -2173,12 +2182,12 @@ public class App {
                                 opMenuAlteracao)) {
                             clearScreen();
                             System.out.println("Morada alterada com sucesso!\n");
-                            registarAcao(aUtilizadorAutenticado.getLogin(), "alterou a morada com sucesso");
+                            registarAcao(username, "alterou a morada com sucesso");
                             opMenuAlteracao = 0;
                         } else {
                             clearScreen();
                             System.out.println("Ocorreu um erro ao tentar alterar a morada. Tente novamente.\n");
-                            registarAcao(aUtilizadorAutenticado.getLogin(), "falhou ao alterar a morada");
+                            registarAcao(username, "falhou ao alterar a morada");
                         }
                     } else if (aUtilizadorAutenticado.getTipoUtilizador().equals("Condutor")) {
                         String novaCartaConducao = leDadosString(gereInterface.getInterface(15), "habilitacao");
@@ -2186,28 +2195,28 @@ public class App {
                                 opMenuAlteracao)) {
                             clearScreen();
                             System.out.println("Carta de conducao alterada com sucesso!\n");
-                            registarAcao(aUtilizadorAutenticado.getLogin(), "alterou a carta de conducao com sucesso");
+                            registarAcao(username, "alterou a carta de conducao com sucesso");
                             opMenuAlteracao = 0;
                         } else {
                             clearScreen();
                             System.out.println(
                                     "Ocorreu um erro ao tentar alterar a carta de conducao. Tente novamente.\n");
-                            registarAcao(aUtilizadorAutenticado.getLogin(), "falhou ao alterar a carta de conducao");
+                            registarAcao(username, "falhou ao alterar a carta de conducao");
                         }
                     } else {
                         clearScreen();
                         System.out.println("Opcao invalida. Tente novamente.\n");
-                        registarAcao(aUtilizadorAutenticado.getLogin(),
+                        registarAcao(username,
                                 "tentou acessar uma opcao invalida na alteracao de dados");
                     }
                     break;
                 case 0:
-                    registarAcao(aUtilizadorAutenticado.getLogin(), "saiu da alteracao de dados");
+                    registarAcao(username, "saiu da alteracao de dados");
                     break;
                 default:
                     clearScreen();
                     System.out.println("Opcao invalida. Tente novamente.\n");
-                    registarAcao(aUtilizadorAutenticado.getLogin(),
+                    registarAcao(username,
                             "tentou acessar uma opcao invalida na alteracao de dados");
             }
         } while (opMenuAlteracao != 0);
